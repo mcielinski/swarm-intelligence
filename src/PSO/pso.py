@@ -77,7 +77,7 @@ class PSO(object):
             for p in self.particles:
                 p.update_velocity(self.g_best, self.personal_coeff, 
                                     self.global_coeff, self.inertia_weight)
-                p.update_position(self.upper_bounds, self.lower_bounds)
+                p.update_position(self.lower_bounds, self.upper_bounds)
 
             self.update_fitness()
 

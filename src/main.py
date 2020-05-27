@@ -1,6 +1,7 @@
+import random
+
 import test_functions
 from PSO.pso import PSO
-import random
 
 
 NUM_PARTICLES = 50

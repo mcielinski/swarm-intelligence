@@ -22,16 +22,16 @@ class Particle(object):
 
         self.velocity = np.around(result, decimals=4)
 
-    def update_position(self, ub, lb):
+    def update_position(self, lower_b, upper_b):
         result = self.position * self.velocity
 
         for i, res in enumerate(result):
-            if res > ub[i]:
+            if res < lower_b[i]:
                 self.velocity *= -1.0
-                result[i] = ub[i]
-            elif res < lb[i]:
+                result[i] = lower_b[i]
+            elif res > upper_b[i]:
                 self.velocity *= -1.0
-                result[i] = lb[i]
+                result[i] = upper_b[i]
 
         self.position = np.around(result, decimals=4)
 
