@@ -8,7 +8,7 @@ from PSO.particle import Particle
 class PSO(object):
     def __init__(self, num_particles, num_iterations, test_func, 
                  personal_coeff=1, global_coeff=3, inertia_weight=0.6, 
-                 upper_bounds=[5, 5], lower_bounds=[-5, -5], verbose_flag=False):
+                 lower_bounds=[-5, -5], upper_bounds=[5, 5], verbose_flag=False):
         super().__init__()
         self.num_particles = num_particles
         self.num_iterations = num_iterations
@@ -16,8 +16,8 @@ class PSO(object):
         self.personal_coeff = personal_coeff
         self.global_coeff = global_coeff
         self.inertia_weight = inertia_weight
-        self.upper_bounds = np.array(upper_bounds)
         self.lower_bounds = np.array(lower_bounds)
+        self.upper_bounds = np.array(upper_bounds)
         self.g_best = None
         self.particles = []
         self.verbose = verbose_flag
@@ -45,17 +45,17 @@ class PSO(object):
             if p.fitness < self.fitness(self.g_best):
                 self.g_best = p.position
 
-    def random_vector(self, ub, lb):
-        ''' alternative
+    def random_vector(self, lower_b, upper_b):
+        ''' alternative - better results ofc
         r = random.random()
         
-        return lb + (ub - lb) * r
+        return lower_b + (upper_b - lower_b) * r
         '''
         r_1 = random.random()
         r_2 = random.random()
 
-        x_rand = lb[0] + (ub[0] - lb[0]) * r_1
-        y_rand = lb[1] + (ub[1] - lb[1]) * r_2
+        x_rand = lower_b[0] + (upper_b[0] - lower_b[0]) * r_1
+        y_rand = lower_b[1] + (upper_b[1] - lower_b[1]) * r_2
 
         return np.array([x_rand, y_rand])
 
@@ -66,8 +66,7 @@ class PSO(object):
         return Particle(r_position, r_velocity, self.fitness(r_position))
 
     def initialize_particles(self):
-        self.particles = [self.random_particle() 
-                            for _ in range(self.num_particles)]
+        self.particles = [self.random_particle() for _ in range(self.num_particles)]
         self.g_best = self.get_gobal_best()
 
     def optimize(self):
