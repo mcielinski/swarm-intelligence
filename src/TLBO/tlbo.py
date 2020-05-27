@@ -1,6 +1,5 @@
 import numpy as np
 import random
-import pprint as pp
 from operator import attrgetter
 
 from TLBO.learner import Learner
