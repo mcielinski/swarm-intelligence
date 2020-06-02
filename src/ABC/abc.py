@@ -2,6 +2,8 @@ import numpy as np
 import random
 from operator import attrgetter
 from copy import deepcopy
+import pandas as pd 
+import matplotlib.pyplot as plt
 
 from ABC.bees import EmployeeBee, OnLookerBee
 
@@ -38,8 +40,15 @@ class ABC(object):
             self.__update_optimal_solution()
             self.__update_optimality_tracking()
 
-            if self.verbose: print("iter: {} = cost: {}".format(itr, "%04.03e" % self.optimal_solution.fitness()))
-        
+            if self.verbose: print("iter: {} = cost: {}, x={}, y={}".format(itr, "%04.03e" % self.optimal_solution.fitness(), self.optimal_solution.pos[0], self.optimal_solution.pos[1]))
+            # if self.verbose: print([bee.pos for bee in self.employee_bees + self.onlokeer_bees])
+
+            # df_employee = pd.DataFrame([bee.pos for bee in self.employee_bees], columns=['a', 'b'])
+            # df_employee.plot(x='a', y='b', style='ob')
+            # df_onlook = pd.DataFrame([bee.pos for bee in self.onlokeer_bees], columns=['a', 'b'])
+            # df_onlook.plot(x='a', y='b', style='or')
+            # plt.show()
+
         return self.optimal_solution.pos
 
     def __reset_algorithm(self):
@@ -65,22 +74,28 @@ class ABC(object):
                 self.optimal_solution = deepcopy(n_optimal_solution)
 
     def __update_optimality_tracking(self):
-        self.optimality_tracking.append(self.optimal_solution.fitness)
+        self.optimality_tracking.append(self.optimal_solution.fitness())
         
     def __select_best_food_sources(self):
-        self.best_food_sources = filter(lambda bee: bee.prob > np.random.uniform(low=0, high=1), self.employee_bees)
+        self.best_food_sources = list(filter(lambda bee: bee.prob > np.random.uniform(low=0, high=1), self.employee_bees))
+        
         while not self.best_food_sources:
-            self.best_food_sources = filter(lambda bee: bee.prob > np.random.uniform(low=0, high=1), self.employee_bees)
+            self.best_food_sources = list(filter(lambda bee: bee.prob > np.random.uniform(low=0, high=1), self.employee_bees))
 
     def __calculate_probabilities(self):
         sum_fitness = sum(map(lambda bee: bee.get_fitness(), self.employee_bees))
-        map(lambda bee: bee.compute_prob(sum_fitness), self.employee_bees)
+
+        for bee in self.employee_bees:
+            bee.compute_prob(sum_fitness)
 
     def __employee_bees_phase(self):
-        map(lambda bee: bee.explore(self.max_trials), self.employee_bees)
+        for bee in self.employee_bees:
+            bee.explore()
 
     def __onlooker_bees_phase(self):
-        map(lambda bee: bee.onlook(self.best_food_sources, self.max_trials), self.onlokeer_bees)
+        for bee in self.onlokeer_bees:
+            bee.onlook(self.best_food_sources)
 
     def __scout_bees_phase(self):
-        map(lambda bee: bee.reset_bee(self.max_trials), self.onlokeer_bees + self.employee_bees)
+        for bee in self.employee_bees + self.onlokeer_bees:
+            bee.reset_bee()

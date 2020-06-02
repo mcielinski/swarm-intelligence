@@ -1,11 +1,9 @@
 import numpy as np
 import random as rand
 import random
-
 from abc import ABCMeta
 
-
-class ArtificialBee(object):
+class ArtificialBee(metaclass=ABCMeta):
     TRIAL_INITIAL_DEFAULT_VALUE = 0
     INITIAL_DEFAULT_PROBABILITY = 0.0
 
@@ -25,7 +23,7 @@ class ArtificialBee(object):
                 ]), 
                 self.upper_b[i]
             ])
-            for i in range(0, len(self.pos))
+            for i in range(0, len(pos))
         ])
 
     def random_position(self):
@@ -38,7 +36,7 @@ class ArtificialBee(object):
         return self.fitness_for_pos(self.pos)
 
     def fitness_for_pos(self, pos):
-        return self.test_func(self.pos)
+        return self.test_func(pos)
 
     def explore_pos(self, old_pos):
         if self.trial <= self.max_trials:
@@ -83,6 +81,6 @@ class EmployeeBee(ArtificialBee):
 
 class OnLookerBee(ArtificialBee):
 
-    def onlook(self, best_food_sources, max_trials):
+    def onlook(self, best_food_sources):
         candidate = np.random.choice(best_food_sources)
         self.explore_pos(candidate.pos)

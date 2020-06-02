@@ -1,10 +1,9 @@
 import random
-
 import test_functions
 from PSO.pso import PSO
 from TLBO.tlbo import TLBO
 from ABC.abc import ABC
-
+from helpers import plot
 
 # PSO params
 NUM_PARTICLES = 50
@@ -28,66 +27,67 @@ def evaluate_pso():
     pso_ackley = PSO(num_particles=NUM_PARTICLES, num_iterations=NUM_ITERATIONS_PSO, test_func=test_functions.ackley, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = pso_ackley.optimize()
-    print(f'Ackley min: \tx={min_x}, y={min_y}')
+    print(f'Ackley min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     pso_griewank = PSO(num_particles=NUM_PARTICLES, num_iterations=NUM_ITERATIONS_PSO, test_func=test_functions.griewank, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = pso_griewank.optimize()
-    print(f'Griewank min: \tx={min_x}, y={min_y}')
+    print(f'Griewank min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     pso_rastrigin = PSO(num_particles=NUM_PARTICLES, num_iterations=NUM_ITERATIONS_PSO, test_func=test_functions.rastrigin, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = pso_rastrigin.optimize()
-    print(f'Rastrigin min: \tx={min_x}, y={min_y}')
+    print(f'Rastrigin min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     pso_sphere = PSO(num_particles=NUM_PARTICLES, num_iterations=NUM_ITERATIONS_PSO, test_func=test_functions.sphere, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = pso_sphere.optimize()
-    print(f'Sphere min: \tx={min_x}, y={min_y}')
+    print(f'Sphere min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
 
 def evaluate_abc():
     abc_ackley = ABC(colony_size=COLONY_SIZE, max_trials=MAX_TRAILS, num_iterations=NUM_ITERATIONS_ABC, test_func=test_functions.ackley, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = abc_ackley.optimize()
-    print(f'Ackley min: \tx={min_x}, y={min_y}')
+    print(f'Ackley min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
+    # plot(abc_ackley.optimality_tracking)
 
     abc_griewank = ABC(colony_size=COLONY_SIZE, max_trials=MAX_TRAILS, num_iterations=NUM_ITERATIONS_ABC, test_func=test_functions.griewank, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = abc_griewank.optimize()
-    print(f'Griewank min: \tx={min_x}, y={min_y}')
+    print(f'Griewank min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     abc_rastrigin = ABC(colony_size=COLONY_SIZE, max_trials=MAX_TRAILS, num_iterations=NUM_ITERATIONS_ABC, test_func=test_functions.rastrigin, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = abc_rastrigin.optimize()
-    print(f'Rastrigin min: \tx={min_x}, y={min_y}')
+    print(f'Rastrigin min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     abc_sphere = ABC(colony_size=COLONY_SIZE, max_trials=MAX_TRAILS, num_iterations=NUM_ITERATIONS_ABC, test_func=test_functions.sphere, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = abc_sphere.optimize()
-    print(f'Sphere min: \tx={min_x}, y={min_y}')
+    print(f'Sphere min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
 
 def evaluate_tlbo():
     tlbo_ackley = TLBO(num_learners=NUM_LEARNERS, num_iterations=NUM_ITERATIONS_TLBO, test_func=test_functions.ackley, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = tlbo_ackley.optimize()
-    print(f'Ackley min: \tx={min_x}, y={min_y}')
+    print(f'Ackley min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     tlbo_griewank = TLBO(num_learners=NUM_LEARNERS, num_iterations=NUM_ITERATIONS_TLBO, test_func=test_functions.griewank, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = tlbo_griewank.optimize()
-    print(f'Griewank min: \tx={min_x}, y={min_y}')
+    print(f'Griewank min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     tlbo_rastrigin = TLBO(num_learners=NUM_LEARNERS, num_iterations=NUM_ITERATIONS_TLBO, test_func=test_functions.rastrigin, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = tlbo_rastrigin.optimize()
-    print(f'Rastrigin min: \tx={min_x}, y={min_y}')
+    print(f'Rastrigin min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
     tlbo_sphere = TLBO(num_learners=NUM_LEARNERS, num_iterations=NUM_ITERATIONS_TLBO, test_func=test_functions.sphere, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = tlbo_sphere.optimize()
-    print(f'Sphere min: \tx={min_x}, y={min_y}')
+    print(f'Sphere min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
 
 if __name__ == '__main__':
@@ -100,3 +100,30 @@ if __name__ == '__main__':
     print('========== EVALUATE TLBO ==========')
     evaluate_tlbo()
     print('==================================')
+
+
+
+# Plot 3D
+# import matplotlib.pyplot as plt
+# from mpl_toolkits.mplot3d import Axes3D
+# import numpy as np
+
+# def f(x, y):
+#     print(x)
+#     print(y)
+#     return x**2 + y**2
+
+# x = np.linspace(-6, 6, 30)
+# y = np.linspace(-6, 6, 30)
+
+# X, Y = np.meshgrid(x, y)
+# Z = f(X, Y)
+
+# fig = plt.figure()
+# ax = plt.axes(projection='3d')
+# ax.contour3D(X, Y, Z, 50, cmap='viridis')
+# ax.set_xlabel('x')
+# ax.set_ylabel('y')
+# ax.set_zlabel('z')
+
+# plt.show()
