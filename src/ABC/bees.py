@@ -3,6 +3,7 @@ import random as rand
 import random
 from abc import ABCMeta
 
+
 class ArtificialBee(metaclass=ABCMeta):
     TRIAL_INITIAL_DEFAULT_VALUE = 0
     INITIAL_DEFAULT_PROBABILITY = 0.0
