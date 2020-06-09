@@ -84,8 +84,8 @@ class TLBO(object):
             r = random.random()
             subjects_prim[i] = subject + (r * diff)
 
-        rounded_subjects_prim = np.around(subjects_prim, decimals=4)
-        best_subjects, best_fitness = self.select_best(learner.subjects, rounded_subjects_prim)
+        #rounded_subjects_prim = np.around(subjects_prim, decimals=4)
+        best_subjects, best_fitness = self.select_best(learner.subjects, subjects_prim)
 
         return (best_subjects, best_fitness)
 
@@ -100,8 +100,8 @@ class TLBO(object):
             diff_mean = teacher.subjects[i] - (tf * s_mean)
             subjects_prim[i] = subject + (r * diff_mean)
 
-        rounded_subjects_prim = np.around(subjects_prim, decimals=4)
-        best_subjects, best_fitness = self.select_best(learner.subjects, rounded_subjects_prim)
+        #rounded_subjects_prim = np.around(subjects_prim, decimals=4)
+        best_subjects, best_fitness = self.select_best(learner.subjects, subjects_prim)
 
         return (best_subjects, best_fitness)
 

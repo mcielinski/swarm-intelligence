@@ -19,7 +19,8 @@ class Particle(object):
         global_part = r_g * global_coeff * (g_best_position - self.position)
         result = inertia_weight * self.velocity + personal_part + global_part
 
-        self.velocity = np.around(result, decimals=4)
+        #self.velocity = np.around(result, decimals=4)
+        self.velocity = result
 
     def update_position(self, lower_b, upper_b):
         result = self.position * self.velocity
@@ -32,7 +33,8 @@ class Particle(object):
                 self.velocity *= -1.0
                 result[i] = upper_b[i]
 
-        self.position = np.around(result, decimals=4)
+        #self.position = np.around(result, decimals=4)
+        self.position = result
 
     def __repr__(self):
         return f'Particle (pos: {self.position} vel: {self.velocity} fit: {self.fitness})'
