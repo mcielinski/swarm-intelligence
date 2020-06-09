@@ -15,6 +15,8 @@ class TLBO(object):
         self.upper_bounds = np.array(upper_bounds)
         self.learners = []
         self.verbose = verbose_flag
+        self.optimality_tracking = []
+        self.optimality_tracking = []
 
 
     def fitness(self, solution):
@@ -115,6 +117,7 @@ class TLBO(object):
                 learner.subjects, learner.fitness = self.learner_phase(learner, i)
 
             teacher = self.get_teacher()
+            self.optimality_tracking.append(teacher.fitness)
             
             if self.verbose: print(teacher.__repr__())
 

@@ -1,7 +1,6 @@
 import numpy as np
 import random
 from operator import attrgetter
-
 from PSO.particle import Particle
 
 
@@ -21,6 +20,7 @@ class PSO(object):
         self.g_best = None
         self.particles = []
         self.verbose = verbose_flag
+        self.optimality_tracking = []
 
 
     def get_gobal_best(self, instance=False):
@@ -79,7 +79,8 @@ class PSO(object):
                 p.update_position(self.lower_bounds, self.upper_bounds)
 
             self.update_fitness()
-
+            self.optimality_tracking.append(self.get_gobal_best(instance=True).fitness)
+            
             if self.verbose: print(self.get_gobal_best(instance=True).__repr__())
 
         return self.g_best

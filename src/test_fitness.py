@@ -3,19 +3,20 @@ import test_functions
 from PSO.pso import PSO
 from TLBO.tlbo import TLBO
 from ABC.abc import ABC
-from helpers import plot
+import pandas as pd 
+import matplotlib.pyplot as plt
 
 # PSO params
 NUM_PARTICLES = 50
-NUM_ITERATIONS_PSO = 200
+NUM_ITERATIONS_PSO = 100
 
 # TLBO params
 NUM_LEARNERS = 50
-NUM_ITERATIONS_TLBO = 200
+NUM_ITERATIONS_TLBO = 100
 
 #ABC
 COLONY_SIZE = 50
-NUM_ITERATIONS_ABC = 200
+NUM_ITERATIONS_ABC = 100
 MAX_TRAILS = 10
 
 # other params
@@ -23,7 +24,8 @@ BOUND = 10
 VERBOSE = False
 
 
-def evaluate_pso():
+
+if __name__ == '__main__':
     pso_ackley = PSO(num_particles=NUM_PARTICLES, num_iterations=NUM_ITERATIONS_PSO, test_func=test_functions.ackley, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = pso_ackley.optimize()
@@ -44,8 +46,6 @@ def evaluate_pso():
     min_x, min_y = pso_sphere.optimize()
     print(f'Sphere min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
-
-def evaluate_abc():
     abc_ackley = ABC(colony_size=COLONY_SIZE, max_trials=MAX_TRAILS, num_iterations=NUM_ITERATIONS_ABC, test_func=test_functions.ackley, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = abc_ackley.optimize()
@@ -66,8 +66,6 @@ def evaluate_abc():
     min_x, min_y = abc_sphere.optimize()
     print(f'Sphere min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
 
-
-def evaluate_tlbo():
     tlbo_ackley = TLBO(num_learners=NUM_LEARNERS, num_iterations=NUM_ITERATIONS_TLBO, test_func=test_functions.ackley, 
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = tlbo_ackley.optimize()
@@ -87,42 +85,28 @@ def evaluate_tlbo():
                         lower_bounds=[-1 * BOUND, -1 * BOUND], upper_bounds=[BOUND, BOUND], verbose_flag=VERBOSE)
     min_x, min_y = tlbo_sphere.optimize()
     print(f'Sphere min: \tx={round(min_x, 4)}, y={round(min_y, 4)}')
+    
+    pd.DataFrame({
+        "pso": pso_ackley.optimality_tracking,
+        "abc": abc_ackley.optimality_tracking,
+        "tlbo": tlbo_ackley.optimality_tracking,
+    }).plot(title="ackley fitness")
+    plt.savefig("ackley_fitnes.png")
+    plt.clf()
 
+    pd.DataFrame({
+        "pso": pso_griewank.optimality_tracking,
+        "abc": abc_griewank.optimality_tracking,
+        "tlbo": tlbo_griewank.optimality_tracking,
+    }).plot(title="griewank fitness")
+    plt.savefig("griewank_fitnes.png")
+    plt.clf()
 
-if __name__ == '__main__':
-    print('========== EVALUATE PSO ==========')
-    evaluate_pso()
-    print('==================================')
-    print('========== EVALUATE ABC ==========')
-    evaluate_abc()
-    print('==================================')
-    print('========== EVALUATE TLBO ==========')
-    evaluate_tlbo()
-    print('==================================')
+    pd.DataFrame({
+        "pso": pso_sphere.optimality_tracking,
+        "abc": abc_sphere.optimality_tracking,
+        "tlbo": tlbo_sphere.optimality_tracking,
+    }).plot(title="sphere fitness")
+    plt.savefig("sphere_fitnes.png")
+    plt.clf()
 
-
-
-# Plot 3D
-# import matplotlib.pyplot as plt
-# from mpl_toolkits.mplot3d import Axes3D
-# import numpy as np
-
-# def f(x, y):
-#     print(x)
-#     print(y)
-#     return x**2 + y**2
-
-# x = np.linspace(-6, 6, 30)
-# y = np.linspace(-6, 6, 30)
-
-# X, Y = np.meshgrid(x, y)
-# Z = f(X, Y)
-
-# fig = plt.figure()
-# ax = plt.axes(projection='3d')
-# ax.contour3D(X, Y, Z, 50, cmap='viridis')
-# ax.set_xlabel('x')
-# ax.set_ylabel('y')
-# ax.set_zlabel('z')
-
-# plt.show()
