@@ -103,6 +103,14 @@ if __name__ == '__main__':
     plt.clf()
 
     pd.DataFrame({
+        "pso": pso_rastrigin.optimality_tracking,
+        "abc": abc_rastrigin.optimality_tracking,
+        "tlbo": tlbo_rastrigin.optimality_tracking,
+    }).plot(title="rastrigin fitness")
+    plt.savefig("rastrigin_fitnes.png")
+    plt.clf()
+
+    pd.DataFrame({
         "pso": pso_sphere.optimality_tracking,
         "abc": abc_sphere.optimality_tracking,
         "tlbo": tlbo_sphere.optimality_tracking,

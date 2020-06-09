@@ -79,7 +79,7 @@ class PSO(object):
                 p.update_position(self.lower_bounds, self.upper_bounds)
 
             self.update_fitness()
-            self.optimality_tracking.append(self.get_gobal_best(instance=True).fitness)
+            self.optimality_tracking.append(self.test_func(self.get_gobal_best(instance=True).best_pos))
             
             if self.verbose: print(self.get_gobal_best(instance=True).__repr__())
 
